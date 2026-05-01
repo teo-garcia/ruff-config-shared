@@ -1,5 +1,6 @@
 from importlib.resources import files
 from pathlib import Path
+from sys import stdout
 
 
 def config_path() -> Path:
@@ -7,4 +8,4 @@ def config_path() -> Path:
 
 
 def _cli() -> None:
-    print(config_path())
+    stdout.write(f"{config_path()}\n")
