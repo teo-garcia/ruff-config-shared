@@ -36,3 +36,13 @@ jobs:
 
       - name: Validate ruff config
         run: uv run ruff check --config src/teo_ruff_config_shared/ruff.toml src/
+
+      - name: Consumer smoke check
+        run: |
+          rm -rf .tmp/consumer-smoke
+          mkdir -p .tmp/consumer-smoke
+          cp tests/fixtures/consumer/sample.py .tmp/consumer-smoke/sample.py
+          printf 'extend = "%s"\n' "$(uv run teo-ruff-config-path)" > .tmp/consumer-smoke/ruff.extend.toml
+          printf '[tool.ruff]\nextend = "ruff.extend.toml"\n' > .tmp/consumer-smoke/pyproject.toml
+          uv run ruff check .tmp/consumer-smoke
+          uv run ruff format --check .tmp/consumer-smoke
