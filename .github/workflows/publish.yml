@@ -33,17 +33,14 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install dependencies
-        run: uv sync
+      - name: Check
+        run: make check PYTHON=python
 
-      - name: Lint
-        run: uv run ruff check .
-
-      - name: Format check
-        run: uv run ruff format --check .
+      - name: Verify release tag
+        run: make verify-release PYTHON=python
 
       - name: Build
-        run: uv build
+        run: make build PYTHON=python
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
